@@ -21,6 +21,7 @@ class UmkmListResource extends JsonResource
             'kategori' => $this->kategori,
             'deskripsi' => $this->deskripsi_usaha,
             'lokasi' => $this->lokasi,
+            'alamat' => $this->alamat,
             'foto_url' => $this->foto_sampul,
             'fotos' => $this->galleries->pluck('foto_url'),
             'whatsapp' => $this->nomor_wa,
