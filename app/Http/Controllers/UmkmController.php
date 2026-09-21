@@ -59,7 +59,8 @@ class UmkmController extends Controller
         $data['deskripsi_usaha'] = $data['deskripsi'];
         unset($data['deskripsi']);
 
-        $data['status'] = 'published';
+        // Mengatur status default menjadi 'pending' (atau dibiarkan agar pakai default database)
+        $data['status'] = 'pending';
 
         if (isset($data['fotos'])) {
             unset($data['fotos']);
