@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Umkm;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use App\Http\Resources\UmkmListResource;
 use App\Http\Resources\UmkmDetailResource;
 use App\Http\Requests\StoreUmkmRequest;
@@ -83,6 +84,19 @@ class UmkmController extends Controller
                 }
             }
         }
+
+        // Kode pengiriman notifikasi ke Telegram
+        $pesan = "📢 *PENDAFTAR UMKM BARU!* 📢\n\n";
+        $pesan .= "👤 Pemilik: " . $request->nama_pemilik . "\n";
+        $pesan .= "🏪 Usaha: " . $request->nama_usaha . "\n";
+        $pesan .= "📱 No WA: " . $request->nomor_wa . "\n\n";
+        $pesan .= "Segera login ke Supabase / Admin untuk verifikasi data (Ubah status pending menjadi approved).";
+
+        Http::post('https://api.telegram.org/bot' . env('TELEGRAM_BOT_TOKEN') . '/sendMessage', [
+            'chat_id' => env('TELEGRAM_CHAT_ID'),
+            'text' => $pesan,
+            'parse_mode' => 'Markdown'
+        ]);
 
         return response()->json([
             'message' => 'Data UMKM berhasil dikirim dan akan ditinjau oleh Admin.'
